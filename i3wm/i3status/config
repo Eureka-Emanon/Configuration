@@ -1,0 +1,89 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 1
+}
+
+order += "volume master"
+order += "ipv6"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+order += "disk /"
+order += "load"
+order += "memory"
+order += "tztime local"
+
+volume master  {
+    format = "♪: %volume"
+    format_muted = "♪: muted (%volume)" # 静音时显示的格式
+    device = "default" # 通常使用默认设备即可
+    mixer = "Master"   # 混音器控制名称，通常是 "Master"
+    mixer_idx = 0
+}
+
+wireless _first_ {
+        format_up = "W: (%quality at %essid) %ip"
+        format_down = "W: down"
+}
+
+ethernet _first_ {
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery all {
+       # format = "%status %percentage %remaining"
+       #format = "%status %percentage"
+       #format_down = "No battery"
+       #status_chr = "⚡"    # 充电中显示的图标
+       #status_bat = "🔋"    # 放电中显示的图标
+       #status_unk = "?"     # 状态未知时显示
+       #status_full = "☻"    # 电池充满时显示
+       #path = "/sys/class/power_supply/BAT%d/uevent" # 电池信息路径，通常不需要修改
+       #low_threshold = 10   # 低电量阈值（百分比），低于此值可能改变显示颜色或提示
+       format = "%status %percentage %remaining" # 状态图标 + 百分比 + 剩余时间估算
+    format_down = "No battery" # 未检测到电池时显示
+    status_chr = "⚡ CHR" # 充电中 - 明确标注CHR并使用百分比
+    status_bat = "Dischar" # 放电中
+    status_unk = "?" # 状态未知
+    status_full = "FULL" # 已充满
+    last_full_capacity = true
+    integer_battery_capacity = true
+    low_threshold = 10 # 低电量阈值
+    threshold_type = percentage
+    hide_seconds = true
+    # 确保路径正确指向系统电池信息
+    path = "/sys/class/power_supply/BAT%d/uevent"
+    # 可选：指定具体的电池路径，如果上面的通配符不起作用
+    # path = "/sys/class/power_supply/BAT0/uevent"
+}
+
+disk "/" {
+        format = "%avail"
+}
+
+load {
+	format = "Load: %1min %5min %15min"
+}
+#三个参数分别代表过去一段时间内的平均负载
+#<1.0：系统相对空闲
+#≈CPU核心数：系统正在充分利用资源
+#>CPU核心数：系统可能过载，进程需要等待
+
+memory {
+        format = "%used | %available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}

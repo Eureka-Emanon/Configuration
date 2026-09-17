@@ -1,3 +1,8 @@
+set -o vi
+bind '"jk":vi-movement-mode'
+export EDITOR=vim
+export VISUAL=vim
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -116,9 +121,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -l"
-#export FZF_TMUX_HEIGHT='80%'
-set -o vi
-bind '"jk":vi-movement-mode'
-EDITOR=vim
-export EDITOR
+export NEMU_HOME=/home/dan/ics2025/nemu
+
+export AM_HOME=/home/dan/ics2025/abstract-machine
+
+export PATH=/usr/lib/ccache:$PATH
+export PATH="$HOME/.local/bin:$PATH"
